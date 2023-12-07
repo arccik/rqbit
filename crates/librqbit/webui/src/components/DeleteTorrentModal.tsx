@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { APIContext, AppContext } from "./context";
 import { ErrorType } from "../api-types";
-import { Button, Form, Modal, Spinner } from "react-bootstrap";
+// import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import { ErrorComponent } from "./ErrorComponent";
 
 export const DeleteTorrentModal: React.FC<{
@@ -44,32 +44,32 @@ export const DeleteTorrentModal: React.FC<{
         setDeleting(false);
       });
   };
-
-  return (
-    <Modal show={show} onHide={close}>
-      <Modal.Header closeButton>Delete torrent</Modal.Header>
-      <Modal.Body>
-        <Form>
-          <Form.Group controlId="delete-torrent">
-            <Form.Check
-              type="checkbox"
-              label="Also delete files"
-              checked={deleteFiles}
-              onChange={() => setDeleteFiles(!deleteFiles)}
-            ></Form.Check>
-          </Form.Group>
-        </Form>
-        {error && <ErrorComponent error={error} />}
-      </Modal.Body>
-      <Modal.Footer>
-        {deleting && <Spinner />}
-        <Button variant="primary" onClick={deleteTorrent} disabled={deleting}>
-          OK
-        </Button>
-        <Button variant="secondary" onClick={close}>
-          Cancel
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
+  return null;
+  // return (
+  //   <Modal show={show} onHide={close}>
+  //     <Modal.Header closeButton>Delete torrent</Modal.Header>
+  //     <Modal.Body>
+  //       <Form>
+  //         <Form.Group controlId="delete-torrent">
+  //           <Form.Check
+  //             type="checkbox"
+  //             label="Also delete files"
+  //             checked={deleteFiles}
+  //             onChange={() => setDeleteFiles(!deleteFiles)}
+  //           ></Form.Check>
+  //         </Form.Group>
+  //       </Form>
+  //       {error && <ErrorComponent error={error} />}
+  //     </Modal.Body>
+  //     <Modal.Footer>
+  //       {deleting && <p>Loading</p>}
+  //       <Button variant="primary" onClick={deleteTorrent} disabled={deleting}>
+  //         OK
+  //       </Button>
+  //       <Button variant="secondary" onClick={close}>
+  //         Cancel
+  //       </Button>
+  //     </Modal.Footer>
+  //   </Modal>
+  // );
 };

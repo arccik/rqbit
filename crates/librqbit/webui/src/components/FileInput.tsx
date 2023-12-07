@@ -35,7 +35,7 @@ export const FileInput = () => {
         ref={inputRef}
         accept=".torrent"
         onChange={onFileChange}
-        className="d-none"
+        className="hidden"
       />
       <UploadButton
         variant="secondary"

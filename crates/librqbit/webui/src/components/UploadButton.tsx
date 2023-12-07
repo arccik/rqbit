@@ -1,19 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
 import { APIContext } from "./context/index";
-import Button from "react-bootstrap/esm/Button";
 import {
   AddTorrentResponse,
   ErrorDetails as ApiErrorDetails,
   ErrorType,
 } from "../api-types";
 import { FileSelectionModal } from "./FileSelectionModal";
+import { Button } from "./ui/button";
+import { Plus } from "lucide-react";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const UploadButton: React.FC<{
   buttonText: string;
   onClick: () => void;
   data: string | File | null;
   resetData: () => void;
-  variant: string;
+  variant?: string;
 }> = ({ buttonText, onClick, data, resetData, variant }) => {
   const [loading, setLoading] = useState(false);
   const [listTorrentResponse, setListTorrentResponse] =
@@ -55,9 +63,21 @@ export const UploadButton: React.FC<{
 
   return (
     <>
-      <Button variant={variant} onClick={onClick} className="m-1">
-        {buttonText}
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="secondary">
+              <Plus
+                onClick={onClick}
+                className="m-1 cursor-pointer hover:text-blue-600"
+              />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{buttonText}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       {data && (
         <FileSelectionModal

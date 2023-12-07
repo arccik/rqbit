@@ -1,13 +1,20 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { AddTorrentOptions, AddTorrentResponse } from "../api-types";
-import { Button, Form, Modal, Spinner } from "react-bootstrap";
+// import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import { ErrorComponent } from "./ErrorComponent";
-import type { Error } from "../api-types";
+import type { ErrorType } from "../api-types";
 import { formatBytes } from "../helper/formatBytes";
 import { APIContext } from "./context";
 
 interface ContextType {
-  setCloseableError: (error: Error | null) => void;
+  setCloseableError: (error: ErrorType | null) => void;
   refreshTorrents: () => void;
 }
 
@@ -19,7 +26,7 @@ const AppContext = createContext<ContextType>({
 export const FileSelectionModal = (props: {
   onHide: () => void;
   listTorrentResponse: AddTorrentResponse | null;
-  listTorrentError: Error | null;
+  listTorrentError: ErrorType | null;
   listTorrentLoading: boolean;
   data: string | File;
 }) => {
@@ -33,7 +40,7 @@ export const FileSelectionModal = (props: {
 
   const [selectedFiles, setSelectedFiles] = useState<number[]>([]);
   const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState<Error | null>(null);
+  const [uploadError, setUploadError] = useState<ErrorType | null>(null);
   const [unpopularTorrent, setUnpopularTorrent] = useState(false);
   const [outputFolder, setOutputFolder] = useState<string>("");
   const ctx = useContext(AppContext);
@@ -99,77 +106,78 @@ export const FileSelectionModal = (props: {
 
   const getBody = () => {
     if (listTorrentLoading) {
-      return <Spinner />;
+      return <p>Loading..</p>;
     } else if (listTorrentError) {
       return <ErrorComponent error={listTorrentError}></ErrorComponent>;
     } else if (listTorrentResponse) {
-      return (
-        <Form>
-          <fieldset className="mb-4">
-            <legend>Pick the files to download</legend>
-            {listTorrentResponse.details.files.map((file, index) => (
-              <Form.Group key={index} controlId={`check-${index}`}>
-                <Form.Check
-                  type="checkbox"
-                  label={`${file.name}  (${formatBytes(file.length)})`}
-                  checked={selectedFiles.includes(index)}
-                  onChange={() => handleToggleFile(index)}
-                ></Form.Check>
-              </Form.Group>
-            ))}
-          </fieldset>
-          <fieldset>
-            <legend>Options</legend>
-            <Form.Group controlId="output-folder" className="mb-3">
-              <Form.Label>Output folder</Form.Label>
-              <Form.Control
-                type="text"
-                value={outputFolder}
-                onChange={(e) => setOutputFolder(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group controlId="unpopular-torrent" className="mb-3">
-              <Form.Check
-                type="checkbox"
-                label="Increase timeouts"
-                checked={unpopularTorrent}
-                onChange={() => setUnpopularTorrent(!unpopularTorrent)}
-              ></Form.Check>
-              <small id="emailHelp" className="form-text text-muted">
-                This might be useful for unpopular torrents with few peers. It
-                will slow down fast torrents though.
-              </small>
-            </Form.Group>
-          </fieldset>
-        </Form>
-      );
+      return null;
+      // return (
+      //   <Form>
+      //     <fieldset className="mb-4">
+      //       <legend>Pick the files to download</legend>
+      //       {listTorrentResponse.details.files.map((file, index) => (
+      //         <Form.Group key={index} controlId={`check-${index}`}>
+      //           <Form.Check
+      //             type="checkbox"
+      //             label={`${file.name}  (${formatBytes(file.length)})`}
+      //             checked={selectedFiles.includes(index)}
+      //             onChange={() => handleToggleFile(index)}
+      //           ></Form.Check>
+      //         </Form.Group>
+      //       ))}
+      //     </fieldset>
+      //     <fieldset>
+      //       <legend>Options</legend>
+      //       <Form.Group controlId="output-folder" className="mb-3">
+      //         <Form.Label>Output folder</Form.Label>
+      //         <Form.Control
+      //           type="text"
+      //           value={outputFolder}
+      //           onChange={(e: any) => setOutputFolder(e.target.value)}
+      //         />
+      //       </Form.Group>
+      //       <Form.Group controlId="unpopular-torrent" className="mb-3">
+      //         <Form.Check
+      //           type="checkbox"
+      //           label="Increase timeouts"
+      //           checked={unpopularTorrent}
+      //           onChange={() => setUnpopularTorrent(!unpopularTorrent)}
+      //         ></Form.Check>
+      //         <small id="emailHelp" className="form-text text-muted">
+      //           This might be useful for unpopular torrents with few peers. It
+      //           will slow down fast torrents though.
+      //         </small>
+      //       </Form.Group>
+      //     </fieldset>
+      //   </Form>
+      // );
     }
   };
-
-  return (
-    <Modal show onHide={clear} size="lg">
-      <Modal.Header closeButton>
-        <Modal.Title>Add torrent</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        {getBody()}
-        <ErrorComponent error={uploadError} />
-      </Modal.Body>
-      <Modal.Footer>
-        {uploading && <Spinner />}
-        <Button
-          variant="primary"
-          onClick={handleUpload}
-          disabled={
-            listTorrentLoading || uploading || selectedFiles.length == 0
-          }
-        >
-          OK
-        </Button>
-        <Button variant="secondary" onClick={clear}>
-          Cancel
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
+  return null;
+  // return (
+  //   <Modal show onHide={clear} size="lg">
+  //     <Modal.Header closeButton>
+  //       <Modal.Title>Add torrent</Modal.Title>
+  //     </Modal.Header>
+  //     <Modal.Body>
+  //       {getBody()}
+  //       <ErrorComponent error={uploadError} />
+  //     </Modal.Body>
+  //     <Modal.Footer>
+  //       {uploading && <Spinner />}
+  //       <Button
+  //         variant="primary"
+  //         onClick={handleUpload}
+  //         disabled={
+  //           listTorrentLoading || uploading || selectedFiles.length == 0
+  //         }
+  //       >
+  //         OK
+  //       </Button>
+  //       <Button variant="secondary" onClick={clear}>
+  //         Cancel
+  //       </Button>
+  //     </Modal.Footer>
+  //   </Modal>
+  // );
 };

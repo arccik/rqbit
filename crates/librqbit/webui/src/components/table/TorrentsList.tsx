@@ -1,4 +1,3 @@
-import { Spinner } from "react-bootstrap";
 import { TorrentId } from "../../api-types";
 import { Torrent } from "./Torrent";
 
@@ -7,7 +6,7 @@ export const TorrentsList = (props: {
   loading: boolean;
 }) => {
   if (props.torrents === null && props.loading) {
-    return <Spinner />;
+    return <p>Loading...</p>;
   }
   // The app either just started, or there was an error loading torrents.
   if (props.torrents === null) {

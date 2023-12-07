@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
 import {
   TorrentId,
   ErrorDetails as ApiErrorDetails,
@@ -13,6 +12,7 @@ import { AppContext, APIContext } from "./components/context";
 import { Buttons } from "./components/Buttons";
 import { TorrentsList } from "./components/table/TorrentsList";
 import { customSetInterval } from "./helper/customSetInterval";
+import WrapperContainer from "./components/layout/Container";
 
 export const RqbitWebUI = (props: { title: string }) => {
   const [closeableError, setCloseableError] = useState<ErrorType | null>(null);
@@ -55,15 +55,13 @@ export const RqbitWebUI = (props: { title: string }) => {
 
   return (
     <AppContext.Provider value={context}>
-      <div className="text-center">
-        <h1 className="mt-3 mb-4">{props.title}</h1>
-        <RootContent
-          closeableError={closeableError}
-          otherError={otherError}
-          torrents={torrents}
-          torrentsLoading={torrentsLoading}
-        />
-      </div>
+      {/* <h1 className="absolute ml-28 text-2xl">{props.title}</h1> */}
+      <RootContent
+        closeableError={closeableError}
+        otherError={otherError}
+        torrents={torrents}
+        torrentsLoading={torrentsLoading}
+      />
     </AppContext.Provider>
   );
 };
@@ -76,14 +74,18 @@ const RootContent = (props: {
 }) => {
   let ctx = useContext(AppContext);
   return (
-    <Container>
+    <WrapperContainer>
       <ErrorComponent
         error={props.closeableError}
         remove={() => ctx.setCloseableError(null)}
       />
       <ErrorComponent error={props.otherError} />
+      {/* <p className="text-2xl">RQBiT</p> */}
+      <div className="flex justify-between">
+        <p className="mt-3 ml-4 text-2xl font-bold text-slate-600">RQBiT</p>
+        <Buttons />
+      </div>
       <TorrentsList torrents={props.torrents} loading={props.torrentsLoading} />
-      <Buttons />
-    </Container>
+    </WrapperContainer>
   );
 };

@@ -1,4 +1,5 @@
-import { ProgressBar, Row, Spinner } from "react-bootstrap";
+import { Progress } from "@/components/ui/progress";
+
 import {
   STATE_ERROR,
   STATE_INITIALIZING,
@@ -10,8 +11,9 @@ import {
 import { formatBytes } from "../../helper/formatBytes";
 import { getLargestFileName } from "../../helper/getLargestFileName";
 import { getCompletionETA } from "../../helper/getCompletionETC";
-import { Column } from "./Column";
+// import { Column } from "./Column";
 import { TorrentActions } from "./TorrentActions";
+import { DataTableDemo } from "./DataGrid";
 
 export const TorrentRow: React.FC<{
   id: number;
@@ -68,55 +70,56 @@ export const TorrentRow: React.FC<{
       classNames.push("bg-light");
     }
   }
+  return <DataTableDemo />;
 
-  return (
-    <Row className={classNames.join(" ")}>
-      <Column size={3} label="Name">
-        {detailsResponse ? (
-          <>
-            <div className="text-truncate">
-              {getLargestFileName(detailsResponse)}
-            </div>
-            {error && (
-              <p className="text-danger">
-                <strong>Error:</strong> {error}
-              </p>
-            )}
-          </>
-        ) : (
-          <Spinner />
-        )}
-      </Column>
-      {statsResponse ? (
-        <>
-          <Column label="Size">{`${formatBytes(totalBytes)} `}</Column>
-          <Column
-            size={2}
-            label={state == STATE_PAUSED ? "Progress" : "Progress"}
-          >
-            <ProgressBar
-              now={progressPercentage}
-              label={progressLabel}
-              animated={isAnimated}
-              variant={progressBarVariant}
-            />
-          </Column>
-          <Column size={2} label="Down Speed">
-            {formatDownloadSpeed()}
-          </Column>
-          <Column label="ETA">{getCompletionETA(statsResponse)}</Column>
-          <Column size={2} label="Peers">
-            {formatPeersString()}
-          </Column>
-          <Column label="Actions">
-            <TorrentActions id={id} statsResponse={statsResponse} />
-          </Column>
-        </>
-      ) : (
-        <Column label="Loading stats" size={8}>
-          <Spinner />
-        </Column>
-      )}
-    </Row>
-  );
+  // return (
+  //   <Row className={classNames.join(" ")}>
+  //     <Column size={3} label="Name">
+  //       {detailsResponse ? (
+  //         <>
+  //           <div className="text-truncate">
+  //             {getLargestFileName(detailsResponse)}
+  //           </div>
+  //           {error && (
+  //             <p className="text-danger">
+  //               <strong>Error:</strong> {error}
+  //             </p>
+  //           )}
+  //         </>
+  //       ) : (
+  //         <Spinner />
+  //       )}
+  //     </Column>
+  //     {statsResponse ? (
+  //       <>
+  //         <Column label="Size">{`${formatBytes(totalBytes)} `}</Column>
+  //         <Column
+  //           size={2}
+  //           label={state == STATE_PAUSED ? "Progress" : "Progress"}
+  //         >
+  //           <Progress
+  //             value={progressPercentage}
+  //             // label={progressLabel}
+  //             // animated={isAnimated}
+  //             // variant={progressBarVariant}
+  //           />
+  //         </Column>
+  //         <Column size={2} label="Down Speed">
+  //           {formatDownloadSpeed()}
+  //         </Column>
+  //         <Column label="ETA">{getCompletionETA(statsResponse)}</Column>
+  //         <Column size={2} label="Peers">
+  //           {formatPeersString()}
+  //         </Column>
+  //         <Column label="Actions">
+  //           <TorrentActions id={id} statsResponse={statsResponse} />
+  //         </Column>
+  //       </>
+  //     ) : (
+  //       <Column label="Loading stats" size={8}>
+  //         <Spinner />
+  //       </Column>
+  //     )}
+  //   </Row>
+  // );
 };

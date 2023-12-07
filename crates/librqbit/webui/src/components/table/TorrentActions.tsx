@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { TorrentStats } from "../../api-types";
 import { APIContext, AppContext, RefreshTorrentStatsContext } from "../context";
-import { Col, Row } from "react-bootstrap";
+// import { Col, Row } from "react-bootstrap";
 import { DeleteTorrentModal } from "../DeleteTorrentModal";
 import { IconButton } from "../IconButton";
 
@@ -67,31 +67,33 @@ export const TorrentActions: React.FC<{
   };
 
   return (
-    <Row>
-      <Col>
-        {canUnpause && (
-          <IconButton
-            className="bi-play-circle"
-            onClick={unpause}
-            disabled={disabled}
-            color="success"
-          />
-        )}
-        {canPause && (
-          <IconButton
-            className="bi-pause-circle"
-            onClick={pause}
-            disabled={disabled}
-          />
-        )}
+    <>
+      {/* <Row> */}
+      {/* <Col> */}
+      {canUnpause && (
         <IconButton
-          className="bi-x-circle"
-          onClick={startDeleting}
+          className="bi-play-circle"
+          onClick={unpause}
           disabled={disabled}
-          color="danger"
+          color="success"
         />
-        <DeleteTorrentModal id={id} show={deleting} onHide={cancelDeleting} />
-      </Col>
-    </Row>
+      )}
+      {canPause && (
+        <IconButton
+          className="bi-pause-circle"
+          onClick={pause}
+          disabled={disabled}
+        />
+      )}
+      <IconButton
+        className="bi-x-circle"
+        onClick={startDeleting}
+        disabled={disabled}
+        color="danger"
+      />
+      <DeleteTorrentModal id={id} show={deleting} onHide={cancelDeleting} />
+      {/* </Col> */}
+      {/* </Row> */}
+    </>
   );
 };
