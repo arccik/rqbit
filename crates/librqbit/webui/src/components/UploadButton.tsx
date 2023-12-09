@@ -3,9 +3,10 @@ import { Button } from "react-bootstrap";
 import {
   AddTorrentResponse,
   ErrorDetails as ApiErrorDetails,
+  ErrorType,
 } from "../api-types";
 import { APIContext } from "../context";
-import { Error } from "../rqbit-web";
+
 import { FileSelectionModal } from "./FileSelectionModal";
 
 export const UploadButton: React.FC<{
@@ -18,7 +19,7 @@ export const UploadButton: React.FC<{
   const [loading, setLoading] = useState(false);
   const [listTorrentResponse, setListTorrentResponse] =
     useState<AddTorrentResponse | null>(null);
-  const [listTorrentError, setListTorrentError] = useState<Error | null>(null);
+  const [listTorrentError, setListTorrentError] = useState<ErrorType | null>(null);
   const API = useContext(APIContext);
 
   // Get the torrent file list if there's data.
@@ -53,7 +54,7 @@ export const UploadButton: React.FC<{
 
   return (
     <>
-      <Button variant={variant} onClick={onClick} className="m-1">
+      <Button variant={variant} onClick={onClick} className="m-1 text-blue-700">
         {buttonText}
       </Button>
 

@@ -130,3 +130,8 @@ export interface RqbitAPI {
   forget: (index: number) => Promise<void>;
   delete: (index: number) => Promise<void>;
 }
+
+export interface ErrorType {
+  text: string;
+  details?: ErrorDetails;
+}

@@ -1,22 +1,19 @@
 import { useContext, useEffect, useState } from "react";
-import { TorrentId, ErrorDetails as ApiErrorDetails } from "./api-types";
+import { TorrentId, ErrorType } from "./api-types";
 import { AppContext, APIContext } from "./context";
 import { RootContent } from "./components/RootContent";
 import { customSetInterval } from "./helper/customSetInterval";
 
-export interface Error {
-  text: string;
-  details?: ApiErrorDetails;
-}
+
 
 export interface ContextType {
-  setCloseableError: (error: Error | null) => void;
+  setCloseableError: (error: ErrorType | null) => void;
   refreshTorrents: () => void;
 }
 
 export const RqbitWebUI = (props: { title: string }) => {
-  const [closeableError, setCloseableError] = useState<Error | null>(null);
-  const [otherError, setOtherError] = useState<Error | null>(null);
+  const [closeableError, setCloseableError] = useState<ErrorType | null>(null);
+  const [otherError, setOtherError] = useState<ErrorType | null>(null);
 
   const [torrents, setTorrents] = useState<Array<TorrentId> | null>(null);
   const [torrentsLoading, setTorrentsLoading] = useState(false);
@@ -56,7 +53,7 @@ export const RqbitWebUI = (props: { title: string }) => {
   return (
     <AppContext.Provider value={context}>
       <div className="text-center">
-        <h1 className="mt-3 mb-4">{props.title}</h1>
+        <h1 className="mt-3 mb-4 text-blue-500">{props.title}</h1>
         <RootContent
           closeableError={closeableError}
           otherError={otherError}
